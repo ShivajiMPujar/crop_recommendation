@@ -18,24 +18,54 @@ const CropRecommendation = () => {
   });
 
   const soilTypes = [
-    'Red Soil', 'Black Soil', 'Alluvial Soil', 'Laterite Soil', 'Sandy Soil', 'Clay Soil'
+    { value: 'Red Soil', label: t('redSoil') || 'Red Soil' },
+    { value: 'Black Soil', label: t('blackSoil') || 'Black Soil' },
+    { value: 'Alluvial Soil', label: t('alluvialSoil') || 'Alluvial Soil' },
+    { value: 'Laterite Soil', label: t('lateriteSoil') || 'Laterite Soil' },
+    { value: 'Sandy Soil', label: t('sandySoil') || 'Sandy Soil' },
+    { value: 'Clay Soil', label: t('claySoil') || 'Clay Soil' }
   ];
 
   const karnatakaDistricts = [
-    'Bagalkot', 'Bangalore Rural', 'Bangalore Urban', 'Belagavi', 'Bellary', 'Bidar',
-    'Vijayapura', 'Chamarajanagar', 'Chikkaballapur', 'Chikmagalur', 'Dakshina Kannada',
-    'Davanagere', 'Dharwad', 'Gadag', 'Hassan', 'Haveri', 'Kalaburagi', 'Kodagu',
-    'Kolar', 'Koppal', 'Mandya', 'Mysore', 'Raichur', 'Ramanagara', 'Shivamogga',
-    'Tumakuru', 'Udupi', 'Uttara Kannada', 'Vijayanagara', 'Yadgir'
+    { value: 'Bagalkot', label: t('dist_Bagalkot') },
+    { value: 'Bangalore Rural', label: t('dist_Bengaluru_Rural') },
+    { value: 'Bangalore Urban', label: t('dist_Bengaluru_Urban') },
+    { value: 'Belagavi', label: t('dist_Belagavi') },
+    { value: 'Bellary', label: t('dist_Ballari') },
+    { value: 'Bidar', label: t('dist_Bidar') },
+    { value: 'Vijayapura', label: t('dist_Vijayapura') },
+    { value: 'Chamarajanagar', label: t('dist_Chamarajanagar') },
+    { value: 'Chikkaballapur', label: t('dist_Chikkaballapura') },
+    { value: 'Chikmagalur', label: t('dist_Chikkamagaluru') },
+    { value: 'Dakshina Kannada', label: t('dist_Dakshina_Kannada') },
+    { value: 'Davanagere', label: t('dist_Davanagere') },
+    { value: 'Dharwad', label: t('dist_Dharwad') },
+    { value: 'Gadag', label: t('dist_Gadag') },
+    { value: 'Hassan', label: t('dist_Hassan') },
+    { value: 'Haveri', label: t('dist_Haveri') },
+    { value: 'Kalaburagi', label: t('dist_Kalaburagi') },
+    { value: 'Kodagu', label: t('dist_Kodagu') },
+    { value: 'Kolar', label: t('dist_Kolar') },
+    { value: 'Koppal', label: t('dist_Koppal') },
+    { value: 'Mandya', label: t('dist_Mandya') },
+    { value: 'Mysore', label: t('dist_Mysuru') },
+    { value: 'Raichur', label: t('dist_Raichur') },
+    { value: 'Ramanagara', label: t('dist_Ramanagara') },
+    { value: 'Shivamogga', label: t('dist_Shivamogga') },
+    { value: 'Tumakuru', label: t('dist_Tumakuru') },
+    { value: 'Udupi', label: t('dist_Udupi') },
+    { value: 'Uttara Kannada', label: t('dist_Uttara_Kannada') },
+    { value: 'Vijayanagara', label: 'Vijayanagara' },
+    { value: 'Yadgir', label: t('dist_Yadgir') }
   ];
 
   const rainfallRanges = [
-    { value: '300', label: '< 300 mm (Low)' },
-    { value: '600', label: '300 - 600 mm (Medium)' },
-    { value: '900', label: '600 - 900 mm (Medium-High)' },
-    { value: '1200', label: '900 - 1200 mm (High)' },
-    { value: '1500', label: '1200 - 1500 mm (Very High)' },
-    { value: '1800', label: '> 1500 mm (Excessive)' }
+    { value: '300', label: t('rainfallLow') || '< 300 mm (Low)' },
+    { value: '600', label: t('rainfallMedium') || '300 - 600 mm (Medium)' },
+    { value: '900', label: t('rainfallMediumHigh') || '600 - 900 mm (Medium-High)' },
+    { value: '1200', label: t('rainfallHigh') || '900 - 1200 mm (High)' },
+    { value: '1500', label: t('rainfallVeryHigh') || '1200 - 1500 mm (Very High)' },
+    { value: '1800', label: t('rainfallExcessive') || '> 1500 mm (Excessive)' }
   ];
 
   const handleInputChange = (e) => {
@@ -49,7 +79,7 @@ const CropRecommendation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const response = await cropAPI.recommend(formData);
       setRecommendations(response.data.recommendations);
@@ -79,7 +109,7 @@ const CropRecommendation = () => {
               >
                 <option value="">{t('selectSoil')}</option>
                 {soilTypes.map(soil => (
-                  <option key={soil} value={soil}>{soil}</option>
+                  <option key={soil.value} value={soil.value}>{soil.label}</option>
                 ))}
               </select>
             </div>
@@ -96,7 +126,7 @@ const CropRecommendation = () => {
               >
                 <option value="">{t('selectDistrict')}</option>
                 {karnatakaDistricts.map(district => (
-                  <option key={district} value={district}>{district}</option>
+                  <option key={district.value} value={district.value}>{district.label}</option>
                 ))}
               </select>
             </div>
@@ -138,9 +168,9 @@ const CropRecommendation = () => {
             </div>
           </div>
 
-          <button 
-            type="submit" 
-            className="w-full btn btn-primary py-3" 
+          <button
+            type="submit"
+            className="w-full btn btn-primary py-3"
             disabled={loading}
           >
             {loading ? t('loading') : t('search')}
@@ -152,26 +182,26 @@ const CropRecommendation = () => {
       {recommendations.length > 0 && (
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-text-primary mb-8">{t('recommendedCrops')}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recommendations.map((crop, index) => (
               <div key={crop._id || index} className="bg-pista-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-pista-100">
                 <div className="mb-6 relative">
-                  <img 
-                    src={crop.image} 
+                  <img
+                    src={crop.image}
                     alt={crop.name}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute top-3 right-3 bg-gradient-to-br from-green-600 to-emerald-400 text-white px-3 py-1 rounded-lg text-sm font-semibold">
-                    {crop.matchPercentage}% {t('search') || 'Match'}
+                    {crop.matchPercentage}% {t('match')}
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-xl font-semibold text-green-700">{crop.name}</h3>
                     <p className="text-sm text-text-secondary italic">{crop.scientificName}</p>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="text-sm font-medium text-text-secondary">{t('season')}:</span>

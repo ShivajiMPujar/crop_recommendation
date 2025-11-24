@@ -33,20 +33,31 @@ async function seedDatabase() {
         await Seed.insertMany(seedData);
         console.log(`✅ Inserted ${seedData.length} seed varieties`);
 
-        // Insert store data (use unordered inserts so valid stores still get created)
-        try {
-            const insertedStores = await Store.insertMany(storeData, { ordered: false });
-            console.log(`✅ Inserted ${insertedStores.length} stores`);
-        } catch (storeErr) {
-            // If some documents failed validation, ordered:false still throws; try to extract how many inserted
-            if (storeErr && storeErr.result && typeof storeErr.result.nInserted === 'number') {
-                console.log(`⚠️ Inserted ${storeErr.result.nInserted} stores; some entries failed validation.`);
-            } else if (storeErr && storeErr.insertedDocs && Array.isArray(storeErr.insertedDocs)) {
-                console.log(`⚠️ Inserted ${storeErr.insertedDocs.length} stores; some entries failed validation.`);
-            } else {
-                console.log('⚠️ Some stores failed to insert. See errors below:');
+        // Insert store data
+        let successfulStores = [];
+        let failedStores = [];
+        
+        for (let i = 0; i < storeData.length; i++) {
+            try {
+                const insertedStore = await Store.create(storeData[i]);
+                successfulStores.push(insertedStore.name);
+            } catch (err) {
+                failedStores.push({
+                    name: storeData[i].name,
+                    error: err.message
+                });
             }
-            console.error(storeErr && storeErr.writeErrors ? storeErr.writeErrors.map(e => e.errmsg || e.toString()) : storeErr);
+        }
+        
+        console.log(`✅ Inserted ${successfulStores.length} stores`);
+        
+        if (failedStores.length > 0) {
+            console.log(`\n⚠️ ${failedStores.length} stores failed to insert:`);
+            failedStores.forEach(store => {
+                console.log(`  ❌ ${store.name}`);
+                console.log(`     Error: ${store.error}`);
+            });
+            console.log();
         }
 
         console.log('🎉 Database seeding completed successfully!');

@@ -14,11 +14,10 @@ const Header = () => {
   const CustomLink = ({ to, label, active }) => (
     <Link
       to={to}
-      className={`text-white font-medium no-underline ml-0 md:ml-5 transition-colors duration-300 ${
-        active
+      className={`text-white font-medium no-underline ml-0 md:ml-5 transition-colors duration-300 ${active
           ? 'underline underline-offset-4 decoration-emerald-200 text-emerald-200'
           : 'hover:text-[#d1fae5]'
-      }`}
+        }`}
     >
       {label}
     </Link>
@@ -31,23 +30,23 @@ const Header = () => {
         {/* Logo */}
         <h2 className="text-[1.5rem] font-bold tracking-wide">
           <Link to="/" className="text-white no-underline hover:text-emerald-200 transition-colors">
-            🌾 Crop Recommendation
+            🌾 {t('cropRecommendation')}
           </Link>
         </h2>
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex md:items-center space-x-6">
-          <CustomLink 
-            to="/" 
-            label={t('home') || 'Home'} 
-            active={location.pathname === '/'} 
+          <CustomLink
+            to="/"
+            label={t('home') || 'Home'}
+            active={location.pathname === '/'}
           />
           <CustomLink
             to="/about"
             label={t('about') || 'About'}
             active={location.pathname === '/about'}
           />
-          
+
           <div className="flex items-center gap-4 ml-6 pl-6 border-l border-emerald-400">
             <LanguageSwitcher />
             <Link to="/login" className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2 rounded transition-colors">
@@ -76,22 +75,20 @@ const Header = () => {
             <div className="flex flex-col p-4 space-y-2">
               <Link
                 to="/"
-                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${
-                  location.pathname === '/'
+                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/'
                     ? 'bg-emerald-600 text-emerald-200'
                     : 'hover:bg-[#0f766e]'
-                }`}
+                  }`}
                 onClick={() => setMenuOpen(false)}
               >
                 {t('home') || 'Home'}
               </Link>
               <Link
                 to="/about"
-                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${
-                  location.pathname === '/about'
+                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/about'
                     ? 'bg-emerald-600 text-emerald-200'
                     : 'hover:bg-[#0f766e]'
-                }`}
+                  }`}
                 onClick={() => setMenuOpen(false)}
               >
                 {t('about') || 'About'}
@@ -124,20 +121,20 @@ const Header = () => {
       {/* Logo */}
       <h2 className="text-[1.5rem] font-bold tracking-wide">
         <Link to="/" className="text-white no-underline hover:text-emerald-200 transition-colors">
-          🌾 Crop Recommendation
+          🌾 {t('cropRecommendation')}
         </Link>
       </h2>
 
       {/* Desktop Navigation Links */}
       <div className="hidden md:flex md:items-center space-x-6">
-        <CustomLink 
-          to="/" 
-          label={t('home') || 'Home'} 
-          active={location.pathname === '/'} 
+        <CustomLink
+          to="/"
+          label={t('home') || 'Home'}
+          active={location.pathname === '/'}
         />
         <CustomLink
           to="/recommendation"
-          label={t('recommendation') || 'Recommendations'}
+          label={t('recommendations') || 'Recommendations'}
           active={location.pathname === '/recommendation'}
         />
         <CustomLink
@@ -152,7 +149,7 @@ const Header = () => {
             active={location.pathname === '/admin'}
           />
         )}
-        
+
         <div className="flex items-center gap-4 ml-6 pl-6 border-l border-emerald-400">
           <LanguageSwitcher />
           <Link
@@ -187,33 +184,30 @@ const Header = () => {
           <div className="flex flex-col p-4 space-y-2">
             <Link
               to="/"
-              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${
-                location.pathname === '/'
+              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/'
                   ? 'bg-emerald-600 text-emerald-200'
                   : 'hover:bg-[#0f766e]'
-              }`}
+                }`}
               onClick={() => setMenuOpen(false)}
             >
               {t('home') || 'Home'}
             </Link>
             <Link
               to="/recommendation"
-              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${
-                location.pathname === '/recommendation'
+              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/recommendation'
                   ? 'bg-emerald-600 text-emerald-200'
                   : 'hover:bg-[#0f766e]'
-              }`}
+                }`}
               onClick={() => setMenuOpen(false)}
             >
-              {t('recommendation') || 'Recommendations'}
+              {t('recommendations') || 'Recommendations'}
             </Link>
             <Link
               to="/about"
-              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${
-                location.pathname === '/about'
+              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/about'
                   ? 'bg-emerald-600 text-emerald-200'
                   : 'hover:bg-[#0f766e]'
-              }`}
+                }`}
               onClick={() => setMenuOpen(false)}
             >
               {t('about') || 'About'}
@@ -221,11 +215,10 @@ const Header = () => {
             {user && user.role === 'admin' && (
               <Link
                 to="/admin"
-                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${
-                  location.pathname === '/admin'
+                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/admin'
                     ? 'bg-emerald-600 text-emerald-200'
                     : 'hover:bg-[#0f766e]'
-                }`}
+                  }`}
                 onClick={() => setMenuOpen(false)}
               >
                 {t('admin') || 'Admin'}

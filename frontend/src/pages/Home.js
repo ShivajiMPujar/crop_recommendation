@@ -21,7 +21,7 @@ function Home() {
         {/* Left Side */}
         <div className="max-w-xl">
           <div className="inline-block bg-green-100 text-green-800 font-semibold py-2 px-4 rounded-full mb-5 text-sm">
-            🌱 Smart Farming Technology
+            🌱 {t('smartFarmingTechnology')}
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold leading-snug mb-4">
@@ -54,15 +54,15 @@ function Home() {
           <div className="flex justify-center md:justify-start gap-10 mt-12 text-center">
             <div>
               <h2 className="text-3xl font-bold text-green-700">500+</h2>
-              <p className="text-gray-700">Crop Varieties</p>
+              <p className="text-gray-700">{t('cropVarieties')}</p>
             </div>
             <div>
               <h2 className="text-3xl font-bold text-green-700">1000+</h2>
-              <p className="text-gray-700">Stores Listed</p>
+              <p className="text-gray-700">{t('storesListed')}</p>
             </div>
             <div>
               <h2 className="text-3xl font-bold text-green-700">50+</h2>
-              <p className="text-gray-700">Regions Covered</p>
+              <p className="text-gray-700">{t('regionsCovered')}</p>
             </div>
           </div>
         </div>
@@ -79,41 +79,41 @@ function Home() {
 
       {/* 🌾 Why Choose Section */}
       <section className="bg-gradient-to-tr from-[#fefffe] to-[#a0d3c7] text-center py-20 px-6 md:px-24">
-        <h2 className="text-3xl font-bold mb-3">Why Choose Our Platform?</h2>
+        <h2 className="text-3xl font-bold mb-3">{t('whyChooseTitle')}</h2>
         <p className="text-gray-600 mb-12 text-lg">
-          Empowering farmers with technology for better crop management
+          {t('whyChooseSubtitle')}
         </p>
 
         {/* Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-pista-50 p-6 rounded-xl shadow-md hover:-translate-y-1 transition transform duration-300">
             <span className="text-3xl">🌾</span>
             <h3 className="text-lg font-semibold mt-3">
-              Smart Recommendations
+              {t('smartRecommendationsTitle')}
             </h3>
             <p className="text-gray-600 text-sm mt-2">
-              AI-powered suggestions based on soil, climate, and regional data.
+              {t('smartRecommendationsDesc')}
             </p>
           </div>
           <div className="bg-pista-50 p-6 rounded-xl shadow-md hover:-translate-y-1 transition transform duration-300">
             <span className="text-3xl">📍</span>
-            <h3 className="text-lg font-semibold mt-3">Store Locator</h3>
+            <h3 className="text-lg font-semibold mt-3">{t('storeLocatorTitle')}</h3>
             <p className="text-gray-600 text-sm mt-2">
-              Find trusted agricultural stores near you with verified reviews.
+              {t('storeLocatorDesc')}
             </p>
           </div>
           <div className="bg-pista-50 p-6 rounded-xl shadow-md hover:-translate-y-1 transition transform duration-300">
             <span className="text-3xl">📈</span>
-            <h3 className="text-lg font-semibold mt-3">Maximize Yield</h3>
+            <h3 className="text-lg font-semibold mt-3">{t('maximizeYieldTitle')}</h3>
             <p className="text-gray-600 text-sm mt-2">
-              Optimize crop selection to increase productivity and profits.
+              {t('maximizeYieldDesc')}
             </p>
           </div>
           <div className="bg-pista-50 p-6 rounded-xl shadow-md hover:-translate-y-1 transition transform duration-300">
             <span className="text-3xl">🔒</span>
-            <h3 className="text-lg font-semibold mt-3">Trusted Data</h3>
+            <h3 className="text-lg font-semibold mt-3">{t('trustedDataTitle')}</h3>
             <p className="text-gray-600 text-sm mt-2">
-              Backed by agricultural research and real farmer experiences.
+              {t('trustedDataDesc')}
             </p>
           </div>
         </div>
@@ -121,22 +121,22 @@ function Home() {
 
       {/* 🌱 Call To Action Section */}
       <section className="bg-gradient-to-r from-green-900 to-emerald-400 text-center text-white py-20 px-6 rounded-2xl w-[90%] md:w-[80%] mx-auto my-24 shadow-lg">
-        <h2 className="text-3xl font-bold mb-2">Ready to Get Started?</h2>
+        <h2 className="text-3xl font-bold mb-2">{t('readyToStart')}</h2>
         <p className="text-lg mb-6">
-          Join thousands of farmers making smarter crop decisions every day.
+          {t('joinFarmers')}
         </p>
-          <Link
+        <Link
           to="/recommendation"
           onClick={handleRecommendationClick}
           className="bg-pista-50 text-green-700 font-semibold py-3 px-8 rounded-lg hover:bg-green-50 transition duration-300"
         >
-          Get Your Recommendation →
+          {t('getRecommendationBtn')}
         </Link>
       </section>
 
       {/* 🌾 Footer */}
       <footer className="bg-green-50 text-green-800 text-center py-5 border-t border-green-100 font-medium">
-        © {new Date().getFullYear()} Crop Recommendation System — All Rights Reserved 🌾
+        © {new Date().getFullYear()} {t('footerRights')} 🌾
       </footer>
     </div>
   );

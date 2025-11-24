@@ -17,7 +17,7 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Client-side validation
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -69,23 +69,23 @@ const AdminLogin = () => {
             to="/login"
             className="flex-1 text-center py-3 rounded-lg font-semibold text-text-secondary hover:bg-secondary-50 transition-colors"
           >
-            User Login
+            {t('userLogin')}
           </Link>
           <div className="flex-1 py-3 rounded-lg font-semibold bg-gradient-to-br from-primary-500 to-primary-700 text-white text-center">
-            Admin Login
+            {t('adminLogin')}
           </div>
         </div>
 
         <h1 className="text-3xl font-bold mb-2 text-text-primary">
-          Admin Panel
+          {t('adminPanel')}
         </h1>
         <p className="text-text-secondary text-sm mb-6">
-          Default Credentials: admin@gmail.com / admin123
+          {t('defaultCredentials')}
         </p>
 
         <form onSubmit={handleSubmit} className="mb-4">
           <div className="form-group">
-            <label className="block mb-2 text-text-secondary font-medium">Email</label>
+            <label className="block mb-2 text-text-secondary font-medium">{t('email')}</label>
             <input
               type="email"
               name="email"
@@ -98,7 +98,7 @@ const AdminLogin = () => {
             {errors.email && <div className="text-red-600 text-sm mt-2">{errors.email}</div>}
           </div>
           <div className="form-group">
-            <label className="block mb-2 text-text-secondary font-medium">Password</label>
+            <label className="block mb-2 text-text-secondary font-medium">{t('password')}</label>
             <input
               type="password"
               name="password"
@@ -115,7 +115,7 @@ const AdminLogin = () => {
             className="w-full btn btn-primary py-3 mt-4"
             disabled={!formData.email || !formData.password}
           >
-            Admin Login
+            {t('adminLogin')}
           </button>
           {errors.general && <div className="text-red-600 text-sm mt-4 text-center">{errors.general}</div>}
         </form>

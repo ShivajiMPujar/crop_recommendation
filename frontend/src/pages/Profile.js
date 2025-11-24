@@ -1,4 +1,4 @@
-  /* Reworked Profile component: fetch latest user data and update auth context */
+/* Reworked Profile component: fetch latest user data and update auth context */
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -37,6 +37,45 @@ const Profile = () => {
 
   const displayUser = profileData || user;
 
+  const getTranslatedDistrict = (districtName) => {
+    if (!districtName) return t('na');
+    // Map of English names to translation keys
+    const districtMap = {
+      'Bagalkot': 'dist_Bagalkot',
+      'Bangalore Rural': 'dist_Bengaluru_Rural',
+      'Bangalore Urban': 'dist_Bengaluru_Urban',
+      'Belagavi': 'dist_Belagavi',
+      'Bellary': 'dist_Ballari',
+      'Bidar': 'dist_Bidar',
+      'Vijayapura': 'dist_Vijayapura',
+      'Chamarajanagar': 'dist_Chamarajanagar',
+      'Chikkaballapur': 'dist_Chikkaballapura',
+      'Chikmagalur': 'dist_Chikkamagaluru',
+      'Dakshina Kannada': 'dist_Dakshina_Kannada',
+      'Davanagere': 'dist_Davanagere',
+      'Dharwad': 'dist_Dharwad',
+      'Gadag': 'dist_Gadag',
+      'Hassan': 'dist_Hassan',
+      'Haveri': 'dist_Haveri',
+      'Kalaburagi': 'dist_Kalaburagi',
+      'Kodagu': 'dist_Kodagu',
+      'Kolar': 'dist_Kolar',
+      'Koppal': 'dist_Koppal',
+      'Mandya': 'dist_Mandya',
+      'Mysore': 'dist_Mysuru',
+      'Raichur': 'dist_Raichur',
+      'Ramanagara': 'dist_Ramanagara',
+      'Shivamogga': 'dist_Shivamogga',
+      'Tumakuru': 'dist_Tumakuru',
+      'Udupi': 'dist_Udupi',
+      'Uttara Kannada': 'dist_Uttara_Kannada',
+      'Yadgir': 'dist_Yadgir'
+    };
+
+    const key = districtMap[districtName];
+    return key ? t(key) : districtName;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#abcba9] to-[#E7F5F2] py-8">
@@ -56,7 +95,7 @@ const Profile = () => {
         </h1>
 
         {/* Profile Header Card */}
-          <div className="bg-pista-50 rounded-2xl shadow-lg p-8 border-2 border-secondary-100 mb-8">
+        <div className="bg-pista-50 rounded-2xl shadow-lg p-8 border-2 border-secondary-100 mb-8">
           <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between">
             <div className="flex flex-col md:flex-row gap-6 items-start md:items-center w-full md:w-auto">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-accent-blue text-white flex items-center justify-center text-4xl font-bold flex-shrink-0">
@@ -91,7 +130,7 @@ const Profile = () => {
                 {t('name') || 'Name'}
               </label>
               <p className="text-lg font-semibold text-text-primary">
-                {displayUser?.name || 'N/A'}
+                {displayUser?.name || t('na')}
               </p>
             </div>
 
@@ -100,7 +139,7 @@ const Profile = () => {
                 {t('email') || 'Email'}
               </label>
               <p className="text-lg font-semibold text-text-primary">
-                {displayUser?.email || 'N/A'}
+                {displayUser?.email || t('na')}
               </p>
             </div>
 
@@ -109,7 +148,7 @@ const Profile = () => {
                 {t('phone') || 'Phone'}
               </label>
               <p className="text-lg font-semibold text-text-primary">
-                {displayUser?.phone || 'N/A'}
+                {displayUser?.phone || t('na')}
               </p>
             </div>
 
@@ -118,7 +157,7 @@ const Profile = () => {
                 {t('region') || 'Region'}
               </label>
               <p className="text-lg font-semibold text-text-primary">
-                {displayUser?.region || 'N/A'}
+                {displayUser?.region || t('na')}
               </p>
             </div>
 
@@ -127,7 +166,7 @@ const Profile = () => {
                 {t('district') || 'District'}
               </label>
               <p className="text-lg font-semibold text-text-primary">
-                {displayUser?.district || 'N/A'}
+                {getTranslatedDistrict(displayUser?.district)}
               </p>
             </div>
 
@@ -136,7 +175,7 @@ const Profile = () => {
                 {t('soilType') || 'Soil Type'}
               </label>
               <p className="text-lg font-semibold text-text-primary">
-                {displayUser?.soilType || 'Not Set'}
+                {displayUser?.soilType || t('notSet')}
               </p>
             </div>
           </div>

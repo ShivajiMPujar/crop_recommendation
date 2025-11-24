@@ -20,10 +20,10 @@ const Login = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email || !emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('enterEmail') || 'Please enter a valid email address.';
     }
     if (!formData.password || formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters.';
+      newErrors.password = t('passwordLengthError') || 'Password must be at least 6 characters.';
     }
 
     setErrors(newErrors);
@@ -38,12 +38,12 @@ const Login = () => {
           login({ ...data.user, token: data.token });
           navigate('/');
         } else {
-          setErrors({ general: data.error || 'Login failed' });
+          setErrors({ general: data.error || t('loginFailed') });
         }
       })
       .catch((err) => {
         console.log('Login - Error:', err);
-        const message = err?.response?.data?.error || err.message || 'Login error';
+        const message = err?.response?.data?.error || err.message || t('loginError');
         setErrors({ general: message });
       });
   };
@@ -60,13 +60,13 @@ const Login = () => {
       <div className="bg-pista-50 p-8 rounded-xl shadow-lg w-full max-w-sm border border-secondary-100">
         <div className="flex gap-4 mb-6">
           <div className="flex-1 py-3 rounded-lg font-semibold bg-gradient-to-br from-primary-500 to-primary-700 text-white text-center">
-            User Login
+            {t('userLogin')}
           </div>
           <Link
             to="/admin-login"
             className="flex-1 text-center py-3 rounded-lg font-semibold text-text-secondary hover:bg-secondary-50 transition-colors"
           >
-            Admin Login
+            {t('adminLogin')}
           </Link>
         </div>
 
@@ -75,7 +75,7 @@ const Login = () => {
         </h1>
         <form onSubmit={handleSubmit} className="mb-4">
           <div className="form-group">
-            <label className="block mb-2 text-text-secondary font-medium">Email</label>
+            <label className="block mb-2 text-text-secondary font-medium">{t('email')}</label>
             <input
               type="email"
               name="email"
@@ -87,7 +87,7 @@ const Login = () => {
             {errors.email && <div className="text-red-600 text-sm mt-2">{errors.email}</div>}
           </div>
           <div className="form-group">
-            <label className="block mb-2 text-text-secondary font-medium">Password</label>
+            <label className="block mb-2 text-text-secondary font-medium">{t('password')}</label>
             <input
               type="password"
               name="password"
@@ -108,7 +108,7 @@ const Login = () => {
           {errors.general && <div className="text-red-600 text-sm mt-4 text-center">{errors.general}</div>}
         </form>
         <p className="text-center text-text-secondary">
-          Don't have an account? <Link to="/register" className="text-primary-500 font-semibold hover:text-primary-700">Register here</Link>
+          {t('noAccount')} <Link to="/register" className="text-primary-500 font-semibold hover:text-primary-700">{t('registerHere')}</Link>
         </p>
       </div>
     </div>

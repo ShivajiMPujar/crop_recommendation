@@ -49,7 +49,7 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold flex items-center gap-3">
             🌾 {t('adminDashboard')}
           </h1>
-          <button 
+          <button
             onClick={handleLogout}
             className="bg-pista-50 text-primary-600 px-6 py-2 rounded-lg font-semibold hover:bg-pista-100 transition-colors"
           >
@@ -84,22 +84,20 @@ const Dashboard = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <button
             onClick={() => setActiveTab('users')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-              activeTab === 'users'
+            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${activeTab === 'users'
                 ? 'bg-primary-500 text-white shadow-lg'
                 : 'bg-pista-50 text-gray-700 border-2 border-pista-100 hover:border-primary-500'
-            }`}
+              }`}
           >
             <span className="text-2xl">👥</span>
             <span>{t('users')}</span>
           </button>
           <button
             onClick={() => setActiveTab('addContent')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-              activeTab === 'addContent'
+            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${activeTab === 'addContent'
                 ? 'bg-primary-500 text-white shadow-lg'
                 : 'bg-pista-50 text-gray-700 border-2 border-pista-100 hover:border-primary-500'
-            }`}
+              }`}
           >
             <span className="text-2xl">➕</span>
             <span>{t('manageContent')}</span>

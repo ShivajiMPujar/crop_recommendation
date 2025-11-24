@@ -35,7 +35,7 @@ const SeedRecommendation = () => {
       if (!cropQuery) {
         setSeeds([]);
         setLoading(false);
-        return alert('Please enter a crop name to search.');
+        return alert(t('enterCropName'));
       }
 
       // First attempt: query by params (supports district filtering)
@@ -71,7 +71,7 @@ const SeedRecommendation = () => {
       setSeeds(result || []);
     } catch (error) {
       console.error('Error getting seeds:', error?.response || error);
-      alert('Failed to get seed recommendations. Check console for details.');
+      alert(t('failedLoadRecommendations'));
     } finally {
       setLoading(false);
     }
@@ -85,7 +85,7 @@ const SeedRecommendation = () => {
     <div className="bg-gradient-to-b from-[#abcba9] to-[#E7F5F2] container py-12 min-h-screen">
       <div className="mb-12 bg-pista-50 rounded-2xl p-8 shadow-lg border border-secondary-100">
         <h2 className="text-3xl font-bold text-green-700 mb-8">{t('seedRecommendation')}</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="form-group">
             <label htmlFor="cropName" className="block mb-2 text-text-secondary font-medium">{t('cropName')}</label>
@@ -108,17 +108,16 @@ const SeedRecommendation = () => {
           </div>
 
           <div className="space-y-3">
-            <p className="text-text-secondary font-medium">Quick select:</p>
+            <p className="text-text-secondary font-medium">{t('quickSelect')}</p>
             <div className="flex flex-wrap gap-3">
               {popularCrops.map(crop => (
                 <button
                   key={crop}
                   type="button"
-                  className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${
-                    formData.cropName === crop 
-                      ? 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-lg' 
+                  className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${formData.cropName === crop
+                      ? 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-lg'
                       : 'bg-pista-50 text-text-secondary hover:bg-pista-100'
-                  }`}
+                    }`}
                   onClick={() => handleQuickSelect(crop)}
                 >
                   {crop}
@@ -136,13 +135,13 @@ const SeedRecommendation = () => {
       {/* Results Section */}
       {seeds.length > 0 && (
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-text-primary mb-8">{t('seedVarieties')} for {formData.cropName}</h2>
+          <h2 className="text-3xl font-bold text-text-primary mb-8">{t('seedVarieties')} {t('for')} {formData.cropName}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {seeds.map((seed, index) => (
               <div key={seed._id || index} className="bg-pista-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-secondary-100">
                 <div className="mb-6 relative">
-                  <img 
-                    src={seed.image} 
+                  <img
+                    src={seed.image}
                     alt={seed.varietyName}
                     className="w-full h-48 object-cover rounded-lg"
                   />
@@ -150,10 +149,10 @@ const SeedRecommendation = () => {
                     ⭐ {seed.rating}/5
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <h3 className="text-xl font-semibold text-green-700">{seed.varietyName}</h3>
-                  
+
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="text-sm font-medium text-text-secondary">{t('type')}:</span>
@@ -181,8 +180,8 @@ const SeedRecommendation = () => {
                     <strong className="text-text-primary">{t('features')}:</strong>
                     <div className="flex flex-wrap gap-2 mt-3">
                       {seed.specialFeatures?.map((feature, idx) => (
-                        <span 
-                          key={idx} 
+                        <span
+                          key={idx}
                           className="inline-block px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm"
                         >
                           {feature}
@@ -191,7 +190,7 @@ const SeedRecommendation = () => {
                     </div>
                   </div>
 
-                  <button 
+                  <button
                     className="w-full btn btn-primary py-2 text-sm"
                     onClick={() => window.open(`tel:${seed.contact}`)}
                   >
@@ -206,7 +205,7 @@ const SeedRecommendation = () => {
 
       {seeds.length === 0 && !loading && (
         <div className="p-8 bg-pista-50 rounded-lg text-center">
-          <p className="text-text-secondary">Enter a crop name to find recommended seed varieties.</p>
+          <p className="text-text-secondary">{t('enterCropToFind')}</p>
         </div>
       )}
     </div>
