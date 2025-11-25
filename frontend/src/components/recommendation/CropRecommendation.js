@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { cropAPI } from '../../services/api';
+import axios from 'axios';
 import LoadingSpinner from '../common/LoadingSpinner';
 //import './CropRecommendation.css';
 
@@ -76,6 +77,42 @@ const CropRecommendation = () => {
     }));
   };
 
+  const fetchTemperature = () => {
+    if (!navigator.geolocation) {
+      alert(t('geolocationNotSupported') || 'Geolocation is not supported by your browser');
+      return;
+    }
+
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const response = await axios.get(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+          );
+
+          if (response.data && response.data.current_weather) {
+            setFormData(prev => ({
+              ...prev,
+              temperature: response.data.current_weather.temperature.toString()
+            }));
+          }
+        } catch (error) {
+          console.error('Error fetching weather:', error);
+          alert(t('failedFetchWeather') || 'Failed to fetch weather data');
+        } finally {
+          setLoading(false);
+        }
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        setLoading(false);
+        alert(t('locationPermissionDenied') || 'Please allow location access to fetch temperature');
+      }
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -135,19 +172,29 @@ const CropRecommendation = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="form-group">
               <label htmlFor="temperature" className="block mb-2 text-text-secondary font-medium">{t('temperature')}</label>
-              <input
-                type="number"
-                id="temperature"
-                name="temperature"
-                value={formData.temperature}
-                onChange={handleInputChange}
-                placeholder={t('enterTemp')}
-                className="w-full px-3 py-3 border-2 border-pista-100 rounded-lg bg-pista-50 text-base transition-all duration-300 focus:outline-none focus:border-primary-500"
-                min="0"
-                max="50"
-                step="0.1"
-                required
-              />
+              <div className="relative">
+                <input
+                  type="number"
+                  id="temperature"
+                  name="temperature"
+                  value={formData.temperature}
+                  onChange={handleInputChange}
+                  placeholder={t('enterTemp')}
+                  className="w-full px-3 py-3 border-2 border-pista-100 rounded-lg bg-pista-50 text-base transition-all duration-300 focus:outline-none focus:border-primary-500 pr-24"
+                  min="0"
+                  max="50"
+                  step="0.1"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={fetchTemperature}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200 transition-colors"
+                  title="Get current temperature"
+                >
+                  {t('getTemp') || 'Get Temp'}
+                </button>
+              </div>
             </div>
 
             <div className="form-group">
