@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
+import workerService from '../services/worker';
 
 const Profile = () => {
   const { t } = useLanguage();
   const { user, login } = useAuth();
   const [profileData, setProfileData] = useState(null);
+  const [workerProfile, setWorkerProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +19,7 @@ const Profile = () => {
         return;
       }
       try {
+        // Fetch User Data
         const res = await authAPI.getUser(user.email);
         if (res?.data?.user) {
           setProfileData(res.data.user);
@@ -25,6 +28,17 @@ const Profile = () => {
         } else {
           setProfileData(user);
         }
+
+        // Fetch Worker Profile if role is worker
+        if (user.role === 'worker') {
+          try {
+            const workerData = await workerService.getProfile();
+            setWorkerProfile(workerData);
+          } catch (err) {
+            console.log('Worker profile not found or error fetching:', err);
+          }
+        }
+
       } catch (err) {
         console.error('Error fetching user data:', err);
         setProfileData(user);
@@ -33,7 +47,7 @@ const Profile = () => {
       }
     };
     fetchUserData();
-  }, [user?.email]);
+  }, [user?.email, user?.role]); // Added user.role dependency
 
   const displayUser = profileData || user;
 
@@ -119,7 +133,7 @@ const Profile = () => {
         </div>
 
         {/* Profile Details Section */}
-        <div className="bg-pista-50 rounded-2xl shadow-lg p-8 border-2 border-secondary-100">
+        <div className="bg-pista-50 rounded-2xl shadow-lg p-8 border-2 border-secondary-100 mb-8">
           <h3 className="text-2xl font-bold text-text-primary mb-6">
             {t('profileDetails') || 'Profile Details'}
           </h3>
@@ -180,6 +194,73 @@ const Profile = () => {
             </div>
           </div>
         </div>
+
+        {/* Worker Specific Details */}
+        {user?.role === 'worker' && workerProfile && (
+          <div className="bg-pista-50 rounded-2xl shadow-lg p-8 border-2 border-secondary-100">
+            <h3 className="text-2xl font-bold text-text-primary mb-6">
+              {t('workerDetails') || 'Worker Details'}
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-bg-light rounded-xl p-4">
+                <label className="block text-sm font-medium text-text-secondary mb-2 uppercase">
+                  {t('skills') || 'Skills'}
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {workerProfile.skills && workerProfile.skills.length > 0 ? (
+                    workerProfile.skills.map((skill, index) => (
+                      <span key={index} className="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-sm font-medium">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-lg font-semibold text-text-primary">{t('na')}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-bg-light rounded-xl p-4">
+                <label className="block text-sm font-medium text-text-secondary mb-2 uppercase">
+                  {t('dailyRate') || 'Daily Rate'}
+                </label>
+                <p className="text-lg font-semibold text-text-primary">
+                  ₹{workerProfile.dailyRate || t('na')}
+                </p>
+              </div>
+
+              <div className="bg-bg-light rounded-xl p-4">
+                <label className="block text-sm font-medium text-text-secondary mb-2 uppercase">
+                  {t('experience') || 'Experience'}
+                </label>
+                <p className="text-lg font-semibold text-text-primary">
+                  {workerProfile.experience ? `${workerProfile.experience} years` : t('na')}
+                </p>
+              </div>
+
+              <div className="bg-bg-light rounded-xl p-4">
+                <label className="block text-sm font-medium text-text-secondary mb-2 uppercase">
+                  {t('availability') || 'Availability'}
+                </label>
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold inline-block mt-1 ${workerProfile.availability === 'Available' ? 'bg-green-100 text-green-800' :
+                  workerProfile.availability === 'Busy' ? 'bg-red-100 text-red-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }`}>
+                  {workerProfile.availability || t('na')}
+                </span>
+              </div>
+
+              <div className="bg-bg-light rounded-xl p-4 md:col-span-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2 uppercase">
+                  {t('bio') || 'Bio'}
+                </label>
+                <p className="text-lg text-text-primary">
+                  {workerProfile.bio || t('noBio')}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

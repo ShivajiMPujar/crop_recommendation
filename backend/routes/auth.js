@@ -10,7 +10,7 @@ require('dotenv').config();
 // @access  Public
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, region, district, language, soilType, password } = req.body;
+        const { name, email, phone, region, district, language, soilType, password, role } = req.body;
 
         if (!password || password.length < 6) {
             return res.status(400).json({ error: 'Password must be at least 6 characters' });
@@ -35,7 +35,8 @@ router.post('/register', async (req, res) => {
             region,
             district,
             language: language || 'en',
-            soilType
+            soilType,
+            role: role || 'farmer'
         });
 
         await user.save();
@@ -72,10 +73,10 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        
+
         // Debug logging
         console.log('Login attempt with:', { email, password: password ? '***' : 'missing' });
-        
+
         if (!email || !password) {
             console.log('Missing email or password');
             return res.status(400).json({ error: 'Email and password are required' });

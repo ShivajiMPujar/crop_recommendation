@@ -17,8 +17,8 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('✅ MongoDB Connected Successfully'))
-.catch(err => console.error('❌ MongoDB Connection Error:', err));
+    .then(() => console.log('✅ MongoDB Connected Successfully'))
+    .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -26,10 +26,13 @@ app.use('/api/crops', require('./routes/crops'));
 app.use('/api/seeds', require('./routes/seeds'));
 app.use('/api/stores', require('./routes/stores'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/schemes', require('./routes/schemes'));
+app.use('/api/worker', require('./routes/worker'));
+app.use('/api/bookings', require('./routes/bookings'));
 
 // Default route
 app.get('/', (req, res) => {
-    res.json({ 
+    res.json({
         message: '🌾 Karnataka Crop Recommendation System API',
         version: '1.0.0',
         endpoints: {
@@ -37,7 +40,10 @@ app.get('/', (req, res) => {
             crops: '/api/crops',
             seeds: '/api/seeds',
             stores: '/api/stores',
-            admin: '/api/admin'
+            admin: '/api/admin',
+            schemes: '/api/schemes',
+            worker: '/api/worker',
+            bookings: '/api/bookings'
         }
     });
 });

@@ -11,17 +11,53 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Custom Link Component
-  const CustomLink = ({ to, label, active }) => (
+  const CustomLink = ({ to, label, active, onClick }) => (
     <Link
       to={to}
-      className={`text-white font-medium no-underline ml-0 md:ml-5 transition-colors duration-300 ${active
-          ? 'underline underline-offset-4 decoration-emerald-200 text-emerald-200'
-          : 'hover:text-[#d1fae5]'
+      className={`text-white font-medium no-underline ml-0 lg:ml-5 transition-colors duration-300 ${active
+        ? 'underline underline-offset-4 decoration-emerald-200 text-emerald-200'
+        : 'hover:text-[#d1fae5]'
         }`}
+      onClick={onClick}
     >
       {label}
     </Link>
   );
+
+  const getNavLinks = (role) => {
+    const commonLinks = [
+      { to: '/about', label: t('about') || 'About' },
+    ];
+
+    switch (role) {
+      case 'worker':
+        return [
+          { to: '/worker/dashboard', label: t('dashboard') || 'Dashboard' },
+          ...commonLinks,
+        ];
+      case 'farmer':
+        return [
+          { to: '/', label: t('home') || 'Home' },
+          { to: '/recommendation', label: t('recommendations') || 'Recommendations' },
+          { to: '/farmer/hire-worker', label: t('hireWorker') || 'Hire Worker' },
+          { to: '/schemes', label: t('govtSchemes') || 'Govt Schemes' },
+          ...commonLinks,
+        ];
+      case 'admin':
+        return [
+          { to: '/', label: t('home') || 'Home' },
+          { to: '/recommendation', label: t('recommendations') || 'Recommendations' },
+          { to: '/schemes', label: t('govtSchemes') || 'Govt Schemes' },
+          ...commonLinks,
+          { to: '/admin', label: t('admin') || 'Admin' },
+        ];
+      default:
+        return [
+          { to: '/', label: t('home') || 'Home' },
+          ...commonLinks,
+        ];
+    }
+  };
 
   if (!user) {
     // Header for non-logged-in users
@@ -35,7 +71,7 @@ const Header = () => {
         </h2>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex md:items-center space-x-6">
+        <div className="hidden lg:flex lg:items-center space-x-6">
           <CustomLink
             to="/"
             label={t('home') || 'Home'}
@@ -59,7 +95,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="lg:hidden flex items-center gap-4">
           <LanguageSwitcher />
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -71,13 +107,13 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {menuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-[#0d5d56] shadow-lg">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-[#0d5d56] shadow-lg">
             <div className="flex flex-col p-4 space-y-2">
               <Link
                 to="/"
                 className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/'
-                    ? 'bg-emerald-600 text-emerald-200'
-                    : 'hover:bg-[#0f766e]'
+                  ? 'bg-emerald-600 text-emerald-200'
+                  : 'hover:bg-[#0f766e]'
                   }`}
                 onClick={() => setMenuOpen(false)}
               >
@@ -86,8 +122,8 @@ const Header = () => {
               <Link
                 to="/about"
                 className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/about'
-                    ? 'bg-emerald-600 text-emerald-200'
-                    : 'hover:bg-[#0f766e]'
+                  ? 'bg-emerald-600 text-emerald-200'
+                  : 'hover:bg-[#0f766e]'
                   }`}
                 onClick={() => setMenuOpen(false)}
               >
@@ -116,6 +152,8 @@ const Header = () => {
     );
   }
 
+  const navLinks = getNavLinks(user.role);
+
   return (
     <nav className="fixed top-0 w-full flex justify-between items-center px-8 py-4 bg-[#0f766e] text-white shadow-md z-50">
       {/* Logo */}
@@ -126,36 +164,23 @@ const Header = () => {
       </h2>
 
       {/* Desktop Navigation Links */}
-      <div className="hidden md:flex md:items-center space-x-6">
-        <CustomLink
-          to="/"
-          label={t('home') || 'Home'}
-          active={location.pathname === '/'}
-        />
-        <CustomLink
-          to="/recommendation"
-          label={t('recommendations') || 'Recommendations'}
-          active={location.pathname === '/recommendation'}
-        />
-        <CustomLink
-          to="/about"
-          label={t('about') || 'About'}
-          active={location.pathname === '/about'}
-        />
-        {user && user.role === 'admin' && (
+      <div className="hidden lg:flex lg:items-center space-x-6">
+        {navLinks.map((link) => (
           <CustomLink
-            to="/admin"
-            label={t('admin') || 'Admin'}
-            active={location.pathname === '/admin'}
+            key={link.to}
+            to={link.to}
+            label={link.label}
+            active={location.pathname === link.to}
           />
-        )}
+        ))}
 
         <div className="flex items-center gap-4 ml-6 pl-6 border-l border-emerald-400">
           <LanguageSwitcher />
           <Link
             to="/profile"
-            className="text-emerald-200 font-medium hover:text-white transition-colors"
+            className="text-emerald-200 font-medium hover:text-white transition-colors flex items-center gap-2"
           >
+            <span>👤</span>
             {user.name}
           </Link>
           <button
@@ -168,7 +193,7 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu Button */}
-      <div className="md:hidden flex items-center gap-4">
+      <div className="lg:hidden flex items-center gap-4">
         <LanguageSwitcher />
         <button
           onClick={() => setMenuOpen(!menuOpen)}
@@ -180,50 +205,36 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {menuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-[#0d5d56] shadow-lg">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-[#0d5d56] shadow-lg">
           <div className="flex flex-col p-4 space-y-2">
-            <Link
-              to="/"
-              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/'
-                  ? 'bg-emerald-600 text-emerald-200'
-                  : 'hover:bg-[#0f766e]'
-                }`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {t('home') || 'Home'}
-            </Link>
-            <Link
-              to="/recommendation"
-              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/recommendation'
-                  ? 'bg-emerald-600 text-emerald-200'
-                  : 'hover:bg-[#0f766e]'
-                }`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {t('recommendations') || 'Recommendations'}
-            </Link>
-            <Link
-              to="/about"
-              className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/about'
-                  ? 'bg-emerald-600 text-emerald-200'
-                  : 'hover:bg-[#0f766e]'
-                }`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {t('about') || 'About'}
-            </Link>
-            {user && user.role === 'admin' && (
+            {navLinks.map((link) => (
               <Link
-                to="/admin"
-                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === '/admin'
-                    ? 'bg-emerald-600 text-emerald-200'
-                    : 'hover:bg-[#0f766e]'
+                key={link.to}
+                to={link.to}
+                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors ${location.pathname === link.to
+                  ? 'bg-emerald-600 text-emerald-200'
+                  : 'hover:bg-[#0f766e]'
                   }`}
                 onClick={() => setMenuOpen(false)}
               >
-                {t('admin') || 'Admin'}
+                {link.label}
               </Link>
-            )}
+            ))}
+
+            <div className="border-t border-emerald-400 mt-2 pt-2">
+              <Link
+                to="/profile"
+                className={`text-white font-medium no-underline py-2 px-3 rounded transition-colors flex items-center gap-2 ${location.pathname === '/profile'
+                  ? 'bg-emerald-600 text-emerald-200'
+                  : 'hover:bg-[#0f766e]'
+                  }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                <span>👤</span>
+                {user.name}
+              </Link>
+            </div>
+
             <button
               onClick={() => {
                 logout();

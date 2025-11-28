@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useLanguage } from "../contexts/LanguageContext";
+import HomeSchemesPreview from "../components/schemes/HomeSchemesPreview";
 
 function Home() {
   const { user } = useAuth();
@@ -76,6 +77,9 @@ function Home() {
           />
         </div>
       </section>
+
+      {/* 🏛️ Government Schemes Section */}
+      <HomeSchemesPreview />
 
       {/* 🌾 Why Choose Section */}
       <section className="bg-gradient-to-tr from-[#fefffe] to-[#a0d3c7] text-center py-20 px-6 md:px-24">

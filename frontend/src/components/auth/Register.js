@@ -16,7 +16,8 @@ const Register = () => {
     region: '',
     district: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'farmer'
   });
 
   const [errors, setErrors] = useState({});
@@ -150,6 +151,19 @@ const Register = () => {
               className="w-full px-3 py-2 border-2 border-secondary-100 rounded-lg focus:outline-none focus:border-primary-500"
             />
             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+          </div>
+
+          <div>
+            <label className="block mb-1 text-text-secondary font-medium">{t('role') || 'I am a'}</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border-2 border-secondary-100 rounded-lg focus:outline-none focus:border-primary-500"
+            >
+              <option value="farmer">{t('farmer') || 'Farmer'}</option>
+              <option value="worker">{t('worker') || 'Worker'}</option>
+            </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

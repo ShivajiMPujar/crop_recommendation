@@ -8,6 +8,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Recommendation from './pages/Recommendation';
+import Schemes from './pages/Schemes';
+import WorkerDashboard from './pages/WorkerDashboard';
+import FarmerHireWorker from './pages/FarmerHireWorker';
 import Admin from './pages/Admin';
 import Login from './components/auth/Login';
 import AdminLogin from './components/auth/AdminLogin';
@@ -27,11 +30,12 @@ function App() {
                 {/* Public routes - accessible to everyone */}
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/schemes" element={<Schemes />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/admin-login" element={<AdminLogin />} />
                 <Route path="/register" element={<Register />} />
-                
+
                 {/* Protected routes - require login */}
                 <Route path="/profile" element={
                   <ProtectedRoute>
@@ -46,6 +50,16 @@ function App() {
                 <Route path="/admin" element={
                   <ProtectedRoute>
                     <Admin />
+                  </ProtectedRoute>
+                } />
+                <Route path="/worker/dashboard" element={
+                  <ProtectedRoute>
+                    <WorkerDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/farmer/hire-worker" element={
+                  <ProtectedRoute>
+                    <FarmerHireWorker />
                   </ProtectedRoute>
                 } />
               </Routes>
